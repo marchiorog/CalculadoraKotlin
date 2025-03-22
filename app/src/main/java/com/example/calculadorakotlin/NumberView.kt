@@ -2,10 +2,12 @@ package com.example.calculadorakotlin
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -23,9 +25,8 @@ fun CalculatorView() {
     ) {
         Text(
             text = displayText,
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier.align(Alignment.End).padding(end = 60.dp, bottom = 16.dp)
         )
-
         Column {
             Row {
                 NumberButton("1") { appendNumber("1", displayText, firstNumber, secondNumber, operation) { updatedText, fNum, sNum ->
@@ -83,14 +84,12 @@ fun CalculatorView() {
             }
             Row {
                 NumberButton("C") {
-                    // Limpar tudo
                     displayText = "0"
                     firstNumber = ""
                     secondNumber = ""
                     operation = ""
                 }
                 NumberButton("=") {
-                    // Lógica para calcular o resultado
                     if (firstNumber.isNotEmpty() && secondNumber.isNotEmpty() && operation.isNotEmpty()) {
                         val result = calculate(firstNumber.toFloat(), secondNumber.toFloat(), operation)
                         displayText = result.toString()
@@ -114,6 +113,10 @@ fun CalculatorView() {
 fun NumberButton(number: String, onClick: () -> Unit) {
     Button(
         onClick = onClick,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Gray,
+            contentColor = Color.White
+        ),
         modifier = Modifier
             .padding(8.dp)
             .width(64.dp)
@@ -126,6 +129,10 @@ fun NumberButton(number: String, onClick: () -> Unit) {
 fun OperationButton(operation: String, onClick: () -> Unit) {
     Button(
         onClick = onClick,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.DarkGray,
+            contentColor = Color.White
+        ),
         modifier = Modifier
             .padding(8.dp)
             .width(64.dp)
@@ -151,7 +158,6 @@ fun appendNumber(
     }
 }
 
-// Função para calcular o resultado
 fun calculate(num1: Float, num2: Float, operation: String): Float {
     return when (operation) {
         "+" -> num1 + num2
